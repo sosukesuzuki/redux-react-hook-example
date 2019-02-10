@@ -1,9 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "normalize.css";
-
-function App() {
-  return <h1>React Redux Hooks Example</h1>;
-}
+import App from "./components/App";
 
 ReactDOM.render(<App />, document.querySelector("#root"));
