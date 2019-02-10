@@ -1,0 +1,19 @@
+{
+  "name": "react-redux-hooks-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Sosuke Suzuki <aosukeke@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"./src/**/*.{ts,tsx}\"",
+    "lint:fix": "yarn lint --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^1.3.0",
+    "eslint": "^5.13.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.16.4",
+    "typescript": "^3.3.3"
+  }
+}
