@@ -1,32 +1,39 @@
 import { Note } from "../types";
-import { Action, ADD_NOTE, DELETE_NOTE, UPDATE_NOTE } from "./actionCreators";
+import { ADD_NOTE, DELETE_NOTE, UPDATE_NOTE } from "./actionCreators";
+import { AnyAction } from "redux";
+import uuid from "uuid/v4";
 
 export interface State {
   notes: Note[];
 }
 
 const initialState: State = {
-  notes: []
+  notes: [
+    {
+      id: uuid(),
+      content: "最初のメモ"
+    }
+  ]
 };
 
-const reducer = (state: State = initialState, action: Action) => {
+const reducer = (state: State = initialState, action: AnyAction) => {
   const { type, payload } = action;
   const { notes } = state;
 
   if (type === ADD_NOTE) {
     const newNote: Note = {
-      id: (notes.length + 1).toString(),
-      content: ""
+      id: uuid(),
+      content: "新しいメモ"
     };
     return {
-      notes: [...notes, newNote],
-      ...state
+      ...state,
+      notes: [...notes, newNote]
     };
   } else if (type === DELETE_NOTE) {
     const newNotes = notes.filter(note => note.id !== payload.noteId);
     return {
-      notes: newNotes,
-      ...state
+      ...state,
+      notes: newNotes
     };
   } else if (type === UPDATE_NOTE) {
     const { noteId, content } = payload;
@@ -37,8 +44,8 @@ const reducer = (state: State = initialState, action: Action) => {
       return note;
     });
     return {
-      notes: newNotes,
-      ...state
+      ...state,
+      notes: newNotes
     };
   } else {
     return state;
