@@ -2,7 +2,11 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import { useMappedState, useDispatch } from "redux-react-hook";
 import { State } from "../lib/redux/reducers";
-import { ADD_NOTE } from "../lib/redux/actionCreators";
+import {
+  addNote as createAddNote,
+  deleteNote as createDeleteNote
+} from "../lib/redux/actionCreators";
+import { bindActionCreators } from "redux";
 
 const Container = styled.div`
   grid-column: 1;
@@ -10,7 +14,13 @@ const Container = styled.div`
   border-right: 1px solid black;
   height: calc(100vh - 40px);
 `;
+
 const Toolbar = styled.div`
+  padding: 10px;
+  border-bottom: 1px solid black;
+`;
+
+const NoteListItem = styled.div`
   padding: 10px;
   border-bottom: 1px solid black;
 `;
@@ -25,22 +35,26 @@ export default function SideNavigation() {
     )
   );
   const dispatch = useDispatch();
-  const addNote = useCallback(
-    () =>
-      dispatch({
-        type: ADD_NOTE
-      }),
-    []
+  const { addNote, deleteNote } = bindActionCreators(
+    {
+      addNote: createAddNote,
+      deleteNote: createDeleteNote
+    },
+    dispatch
   );
+
   return (
     <Container>
       <Toolbar>
         <button onClick={addNote}>メモを追加</button>
       </Toolbar>
       {notes.map(note => (
-        <p key={note.id}>
-          {note.id}:{note.content}
-        </p>
+        <NoteListItem key={note.id}>
+          <span>
+            {note.id}:{note.content}
+          </span>
+          <button onClick={() => deleteNote(note.id)}>ノートを削除</button>
+        </NoteListItem>
       ))}
     </Container>
   );
