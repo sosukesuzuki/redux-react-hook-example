@@ -1,5 +1,5 @@
-import { Note } from "../types";
-import { ADD_NOTE, DELETE_NOTE, UPDATE_NOTE } from "./actionCreators";
+import { Note } from "../../types";
+import { ADD_NOTE, DELETE_NOTE, UPDATE_NOTE } from "../actionCreators";
 import { AnyAction } from "redux";
 import uuid from "uuid/v4";
 
@@ -16,7 +16,7 @@ const initialState: State = {
   ]
 };
 
-const reducer = (state: State = initialState, action: AnyAction) => {
+const notesReducer = (state: State = initialState, action: AnyAction) => {
   const { type, payload } = action;
   const { notes } = state;
 
@@ -52,4 +52,4 @@ const reducer = (state: State = initialState, action: AnyAction) => {
   }
 };
 
-export default reducer;
+export default notesReducer;
