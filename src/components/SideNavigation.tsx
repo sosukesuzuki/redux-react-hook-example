@@ -55,7 +55,7 @@ export default function SideNavigation() {
           <span>
             {note.id}:{note.content}
           </span>
-          <button onClick={() => deleteNote(note.id)}>ノートを削除</button>
+          <button onClick={() => deleteNote(note.id)}>メモを削除</button>
         </NoteListItem>
       ))}
     </Container>

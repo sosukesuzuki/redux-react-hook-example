@@ -1,7 +1,10 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { useMappedState } from "redux-react-hook";
+import { useMappedState, useDispatch } from "redux-react-hook";
 import { State } from "../lib/redux/reducers";
+import { updateNote as createUpdateNote } from "../lib/redux/actionCreators";
+import { bindActionCreators } from "redux";
+import find from "lodash.find";
 
 const Container = styled.div`
   grid-row: 2;
@@ -9,17 +12,39 @@ const Container = styled.div`
 `;
 
 export default function Editor() {
-  const { currentNoteId } = useMappedState(
+  const { currentNoteId, notes } = useMappedState(
     useCallback(
       (state: State) => ({
-        currentNoteId: state.currentNote.currentNoteId
+        currentNoteId: state.currentNote.currentNoteId,
+        notes: state.notes.notes
       }),
       []
     )
   );
+  const currentNote = find(notes, ["id", currentNoteId]);
+
+  const dispatch = useDispatch();
+  const { updateNote } = bindActionCreators(
+    {
+      updateNote: createUpdateNote
+    },
+    dispatch
+  );
+
   return (
     <Container>
-      <h1>{currentNoteId}</h1>
+      {currentNoteId && currentNote ? (
+        <>
+          <textarea
+            value={currentNote.content}
+            onChange={e => {
+              updateNote(currentNoteId, e.target.value);
+            }}
+          />
+        </>
+      ) : (
+        <span>メモが選択されていません</span>
+      )}
     </Container>
   );
 }
