@@ -4,7 +4,8 @@ import { useMappedState, useDispatch } from "redux-react-hook";
 import { State } from "../lib/redux/reducers";
 import {
   addNote as createAddNote,
-  deleteNote as createDeleteNote
+  deleteNote as createDeleteNote,
+  setCurrentNote as createSetCurrentNote
 } from "../lib/redux/actionCreators";
 import { bindActionCreators } from "redux";
 
@@ -35,10 +36,11 @@ export default function SideNavigation() {
     )
   );
   const dispatch = useDispatch();
-  const { addNote, deleteNote } = bindActionCreators(
+  const { addNote, deleteNote, setCurrentNote } = bindActionCreators(
     {
       addNote: createAddNote,
-      deleteNote: createDeleteNote
+      deleteNote: createDeleteNote,
+      setCurrentNote: createSetCurrentNote
     },
     dispatch
   );
@@ -49,7 +51,7 @@ export default function SideNavigation() {
         <button onClick={addNote}>メモを追加</button>
       </Toolbar>
       {notes.map(note => (
-        <NoteListItem key={note.id}>
+        <NoteListItem key={note.id} onClick={() => setCurrentNote(note.id)}>
           <span>
             {note.id}:{note.content}
           </span>
